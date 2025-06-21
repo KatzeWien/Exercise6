@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Holesky Block Height</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <h1>Aktuelle Blockhöhe im Holesky-Testnetz</h1>
+  <button onclick="getBlockHeight()">Blockhöhe anzeigen</button>
+  <p id="blockNumber">Noch nichts geladen...</p>
+
+  <script>
+    async function getBlockHeight() {
+      try {
+        // Anfrage zur Verbindung mit MetaMask
+        if (!window.ethereum) {
+          alert('MetaMask nicht gefunden!');
+          return;
+        }
+
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Verbindung zum Holesky-Netzwerk
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const blockNumber = await provider.getBlockNumber();
+
+        document.getElementById("blockNumber").innerText = "Block: " + blockNumber;
+      } catch (err) {
+        console.error(err);
+        alert("Fehler beim Laden der Blockhöhe.");
+      }
+    }
+  </script>
+</body>
+</html>
